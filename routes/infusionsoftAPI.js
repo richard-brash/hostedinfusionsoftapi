@@ -20,6 +20,7 @@ router.param('appName', function(req, res, next, appName){
 
     var input = req.body;
     var config = Config.ISConfig(appName);
+    req.appname = appName;
 
     if(input.ApiToken == config.ApiToken){
         req.config = config;
@@ -61,21 +62,34 @@ router.use(function(req, res, next) {
 
 router.post('/api/:appName/:service', function(req, res){
 
-    if(req.config){
+    var input = req.body;
 
-        var input = req.body;
-
-        InfusionsoftApiClient.Caller(req.config,req.service, input.input, function(error, data){
-            if(error){
-                res.json(rbmJSONResponse.errorResponse(error));
-            } else {
-                res.json(rbmJSONResponse.successResponse(data));
-            }
-        })
-
-    } else {
-        res.json(rbmJSONResponse.errorResponse({message:"Access Token not valid"}));
+    var test = {
+        input : input,
+        service:req.service,
+        appName:req.appname,
+        config:req.config
     }
+
+    res.json(rbmJSONResponse.successResponse(test));
+
+
+    //if(req.config){
+    //
+    //    var input = req.body;
+    //
+    //
+    //    InfusionsoftApiClient.Caller(req.config,req.service, input.input, function(error, data){
+    //        if(error){
+    //            res.json(rbmJSONResponse.errorResponse(error));
+    //        } else {
+    //            res.json(rbmJSONResponse.successResponse(data));
+    //        }
+    //    })
+    //
+    //} else {
+    //    res.json(rbmJSONResponse.errorResponse({message:"Access Token not valid"}));
+    //}
 
 });
 

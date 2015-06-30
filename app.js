@@ -23,7 +23,7 @@ var infusionsoftapi = require('./routes/infusionsoftAPI');
 
 var app = express();
 
-app.use(passport.initialize());
+//app.use(passport.initialize());
 
 app.set("env", "development");
 

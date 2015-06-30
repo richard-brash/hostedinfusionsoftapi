@@ -62,34 +62,22 @@ router.use(function(req, res, next) {
 
 router.post('/api/:appName/:service', function(req, res){
 
-    var input = req.body;
+    if(req.config){
 
-    var test = {
-        input : input,
-        service:req.service,
-        appName:req.appname,
-        config:req.config
+        var input = req.body;
+
+
+        InfusionsoftApiClient.Caller(req.config,req.service, input.input, function(error, data){
+            if(error){
+                res.json(rbmJSONResponse.errorResponse(error));
+            } else {
+                res.json(rbmJSONResponse.successResponse(data));
+            }
+        })
+
+    } else {
+        res.json(rbmJSONResponse.errorResponse({message:"Access Token not valid"}));
     }
-
-    res.json(rbmJSONResponse.successResponse(test));
-
-
-    //if(req.config){
-    //
-    //    var input = req.body;
-    //
-    //
-    //    InfusionsoftApiClient.Caller(req.config,req.service, input.input, function(error, data){
-    //        if(error){
-    //            res.json(rbmJSONResponse.errorResponse(error));
-    //        } else {
-    //            res.json(rbmJSONResponse.successResponse(data));
-    //        }
-    //    })
-    //
-    //} else {
-    //    res.json(rbmJSONResponse.errorResponse({message:"Access Token not valid"}));
-    //}
 
 });
 

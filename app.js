@@ -41,11 +41,11 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 
 // Use the routes
-app.use('/', routes);
+app.use('/hostedapi', routes);
 //app.use('/user', user);
 //app.use('/client', client);
 //app.use('/account', account);
-app.use('/infusionsoft', infusionsoftapi);
+app.use('/hostedapi/infusionsoft', infusionsoftapi);
 
 
 // catch 404 and forward to error handler
